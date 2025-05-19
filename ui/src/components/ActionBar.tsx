@@ -1,4 +1,4 @@
-import { MdOutlineContentPasteGo } from "react-icons/md";
+import { MdCropFree, MdOutlineContentPasteGo } from "react-icons/md";
 import { LuCable, LuHardDrive, LuMaximize, LuSettings, LuSignal } from "react-icons/lu";
 import { FaKeyboard } from "react-icons/fa6";
 import { Popover, PopoverButton, PopoverPanel } from "@headlessui/react";
@@ -20,10 +20,14 @@ import MountPopopover from "@/components/popovers/MountPopover";
 import ExtensionPopover from "@/components/popovers/ExtensionPopover";
 import { useDeviceUiNavigation } from "@/hooks/useAppNavigation";
 
+import { ExtractText } from "./ExtractText";
+
 export default function Actionbar({
   requestFullscreen,
+  videoElement,
 }: {
   requestFullscreen: () => Promise<void>;
+  videoElement: HTMLVideoElement | null;
 }) {
   const { navigateTo } = useDeviceUiNavigation();
   const virtualKeyboard = useHidStore(state => state.isVirtualKeyboardEnabled);
@@ -73,6 +77,36 @@ export default function Actionbar({
               onClick={() => setTerminalType(terminalType === "kvm" ? "none" : "kvm")}
             />
           )}
+        <Popover>
+            <PopoverButton as={Fragment}>
+              <Button
+                size="XS"
+                theme="light"
+                text="Extract text"
+                LeadingIcon={MdCropFree}
+                onClick={() => {
+                  setDisableFocusTrap(true);
+                }}
+              />
+            </PopoverButton>
+            <PopoverPanel
+              anchor="bottom start"
+              transition
+              className={cx(
+                "z-10 flex w-[420px] origin-top flex-col overflow-visible!",
+                "flex origin-top flex-col transition duration-300 ease-out data-closed:translate-y-8 data-closed:opacity-0",
+              )}
+            >
+              {({ open }) => {
+                checkIfStateChanged(open);
+                return (
+                  <div className="w-full max-w-xl mx-auto">
+                    <ExtractText videoElement={videoElement} />
+                  </div>
+                );
+              }}
+            </PopoverPanel>
+          </Popover>
           <Popover>
             <PopoverButton as={Fragment}>
               <Button

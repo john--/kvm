@@ -680,7 +680,7 @@ export default function WebRTCVideo() {
             disabled={peerConnection?.connectionState !== "connected"}
             className="contents"
           >
-            <Actionbar requestFullscreen={requestFullscreen} />
+            <Actionbar requestFullscreen={requestFullscreen} videoElement={videoElm.current} />
             <MacroBar />
           </fieldset>
         </div>

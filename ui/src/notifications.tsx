@@ -1,6 +1,6 @@
 import toast, { Toast, Toaster, useToasterStore } from "react-hot-toast";
 import React, { useEffect } from "react";
-import { CheckCircleIcon, XCircleIcon } from "@heroicons/react/20/solid";
+import { CheckCircleIcon, XCircleIcon, InformationCircleIcon } from "@heroicons/react/20/solid";
 
 import Card from "@/components/Card";
 
@@ -37,6 +37,19 @@ const notifications = {
       t => (
         <ToastContent
           icon={<CheckCircleIcon className="w-5 h-5 text-green-500 dark:text-green-400" />}
+          message={message}
+          t={t}
+        />
+      ),
+      { duration: 2000, ...options },
+    );
+  },
+
+  info: (message: string, options?: NotificationOptions) => {
+    return toast.custom(
+      t => (
+        <ToastContent
+          icon={<InformationCircleIcon className="w-5 h-5 text-blue-4500 dark:text-blue-400" />}
           message={message}
           t={t}
         />
@@ -85,4 +98,5 @@ export function Notifications({
 export default Object.assign(Notifications, {
   success: notifications.success,
   error: notifications.error,
+  info: notifications.info,
 });
